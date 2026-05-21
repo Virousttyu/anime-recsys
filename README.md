@@ -14,7 +14,7 @@
 | Google Colab | 資料下載、EDA、模型訓練、評估 | 免費 RAM、避免 Windows 套件安裝問題 (scikit-surprise 等) |
 | 本地端 | Streamlit Web Demo、推薦服務 | 不需重訓，只載入訓練好的模型檔案 |
 
-訓練產出的 `.pkl` / `.npz` / `.json` 檔案從 Colab 下載到本地的 `artifacts/` 資料夾後，Streamlit 即可上線。
+訓練產出的 `.pkl` / `.npz` / `.parquet` 檔案從 Colab 下載到本地的 `artifacts/` 資料夾後，Streamlit 即可上線。
 
 ## 目錄結構
 
@@ -26,13 +26,14 @@ anime-recsys/
 ├── .gitignore
 ├── src/
 │   ├── __init__.py
-│   ├── recommender.py      # 統一推薦介面：載入 artifacts、產生 Top-K
-│   └── ui_helpers.py       # Streamlit UI 工具函式
+│   └── recommender.py      # 統一推薦介面：四種演算法 + 冷啟動邏輯
 ├── notebooks/              # 在 Colab 執行的 Notebook
+│   ├── README.md
 │   ├── 01_eda.ipynb
 │   ├── 02_train_models.ipynb
 │   └── 03_evaluate.ipynb
 └── artifacts/              # 從 Colab 下載過來的模型與資料
+    ├── README.md
     ├── anime_meta.parquet
     ├── mappings.pkl
     ├── content_sim.npz
@@ -44,6 +45,8 @@ anime-recsys/
     └── metrics_comparison.png
 ```
 
+> 註：`artifacts/` 內的模型檔案（`.pkl` / `.npz` / `.parquet`）因體積較大（約 30–80 MB）未納入 git 版控，需另外取得，見下方 Setup 步驟 4。
+
 ## Setup (給組員 / 給老師)
 
 ### 0. 環境需求
@@ -52,7 +55,7 @@ anime-recsys/
 
 ### 1. 取得程式碼
 ```bash
-git clone <your-repo-url>
+git clone https://github.com/Virousttyu/anime-recsys.git
 cd anime-recsys
 ```
 
@@ -77,8 +80,24 @@ pip install -r requirements.txt
 ```
 
 ### 4. 取得訓練好的模型 (artifacts)
-方案 A ‒ 直接從我們的 Google Drive 下載解壓到 `artifacts/`（推薦給老師）。
-方案 B ‒ 自己在 Colab 跑：依序執行 `notebooks/01_eda.ipynb`、`02_train_models.ipynb`、`03_evaluate.ipynb`，下載產出檔案到 `artifacts/`。
+
+`artifacts/` 內的模型檔案需另外取得，以下二擇一：
+
+**方案 A（最快）— 直接下載我們訓練好的 artifacts**
+
+從下列 Google Drive 連結下載 artifacts 壓縮檔，解壓後把所有檔案放進專案的 `artifacts/` 資料夾：
+
+> 📂 Google Drive 連結：<!-- TODO: 請填入你的 Google Drive 分享連結 -->（待補）
+
+**方案 B — 自己在 Colab 重新訓練**
+
+依序在 Google Colab 開啟並執行 `notebooks/` 內的三本 notebook：
+
+1. `01_eda.ipynb` — 下載 Kaggle 資料、EDA、切分 train/test
+2. `02_train_models.ipynb` — 訓練 Content-Based / User-CF / SVD 三個模型
+3. `03_evaluate.ipynb` — 計算評估指標、產生比較圖
+
+跑完後把 Colab 產出的檔案下載到本地的 `artifacts/`。詳細步驟見 `notebooks/README.md`。
 
 ### 5. 啟動 Streamlit
 ```bash
@@ -88,10 +107,15 @@ streamlit run app.py
 
 ## Demo 使用方式
 
-1. 左側選擇一位 Demo User（從資料集中挑出有完整評分歷史的使用者）
-2. 選擇推薦演算法（Popularity / Content-Based / User-CF / SVD）
-3. 看畫面中央的 Top-10 推薦結果
-4. 切到「評估比較」分頁可看到三模型在離線資料上的 Precision@10 / Recall@10 / NDCG@10 條形圖
+Streamlit 介面共有 5 個分頁：
+
+1. **推薦結果** — 從左側邊欄選一位 Demo User 與演算法，看 Top-K 推薦清單
+2. **使用者觀看紀錄** — 檢視該 User 過去評分過的所有作品
+3. **自訂使用者 (冷啟動)** — 自己搜尋並選 5–10 部動漫評分，系統即時產生推薦，展示新使用者上線的 cold-start 場景
+4. **模型評估比較** — 三模型 + Popularity baseline 的 Precision@10 / Recall@10 / NDCG@10 數字與條形圖
+5. **關於本系統** — 架構與演算法說明
+
+左側邊欄可切換 Demo User、推薦演算法（Popularity / Content-Based / User-CF / SVD）與推薦數量 Top-K。
 
 ## 期中評分對應
 
