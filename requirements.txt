@@ -1,0 +1,12 @@
+# Local Streamlit serving environment only.
+# Training-side packages (scikit-surprise, implicit, etc.) live in Colab notebooks, not here.
+
+streamlit>=1.30
+pandas>=2.0
+numpy>=1.24
+scipy>=1.10
+scikit-learn>=1.3
+pyarrow>=14.0          # parquet
+matplotlib>=3.7
+joblib>=1.3
+Pillow>=10.0           # for displaying anime cover images if available

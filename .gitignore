@@ -1,0 +1,37 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.venv/
+venv/
+env/
+.Python
+*.egg-info/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Data & trained models (too large for git; shared via Google Drive instead)
+data/raw/
+data/processed/
+*.parquet
+*.csv
+*.pkl
+*.npz
+*.zip
+
+# Streamlit
+.streamlit/secrets.toml
+
+# Logs
+*.log
