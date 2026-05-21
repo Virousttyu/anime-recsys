@@ -85,9 +85,9 @@ pip install -r requirements.txt
 
 **方案 A（最快）— 直接下載我們訓練好的 artifacts**
 
-從下列 Google Drive 連結下載 artifacts 壓縮檔，解壓後把所有檔案放進專案的 `artifacts/` 資料夾：
+點下列 Google Drive 連結，下載整個資料夾（Google Drive 會自動打包成 zip），解壓後把裡面所有檔案放進專案的 `artifacts/` 資料夾：
 
-> 📂 Google Drive 連結：<!-- TODO: 請填入你的 Google Drive 分享連結 -->（待補）
+> 📂 Google Drive：https://drive.google.com/drive/folders/1Toe0bj6tEPwrx8V-HVid48t-nk9Zmw6_?usp=sharing
 
 **方案 B — 自己在 Colab 重新訓練**
 
