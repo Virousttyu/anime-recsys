@@ -1,4 +1,4 @@
-"""Unified recommendation interface (期末版 — multimodal + LLM-ready + discovery)."""
+"""Unified recommendation interface — classical, multimodal, and LLM-augmented recommenders."""
 from __future__ import annotations
 
 import json
@@ -398,7 +398,7 @@ def load_metrics():
 
 
 # ===========================================================================
-# Cold-start (期中既有,期末沿用)
+# Cold-start support
 # ===========================================================================
 
 class ColdStartRecommender:

@@ -1,15 +1,15 @@
-"""Streamlit Web Demo — Anime Recommender (期末版).
+"""Streamlit web demo for the Anime Recommender System.
 
 Run with:
     streamlit run app.py
 
-期末新增功能:
+功能概覽:
   • Multimodal (Text+Structural) 演算法可選
   • Feature A: 🏆 三大首推 (Ensemble cross-model consensus + LLM 推薦詞)
   • Feature B: 🎲 探索式推薦 (Tinder mode + 即時 deboost 學習)
   • Groq LLM 整體推薦解釋 (推薦結果分頁)
   • 家庭友善模式 (側邊欄開關,過濾 Hentai/Ecchi)
-  • 關於本系統 分頁更新為期末架構
+  • 「關於本系統」分頁:架構與設計說明
 """
 from __future__ import annotations
 
@@ -30,7 +30,7 @@ from src.recommender import (
 )
 from src import llm
 
-st.set_page_config(page_title="Anime Recommender (期末)", layout="wide", page_icon=":clapper:")
+st.set_page_config(page_title="Anime Recommender", layout="wide", page_icon=":clapper:")
 
 UNSAFE_TAGS = ("Hentai", "Ecchi")
 
@@ -119,7 +119,7 @@ def _top_pick_card(col, rank, item, user_likes_titles):
 # ---------------------------------------------------------------------------
 
 st.title("🎬 Anime Recommender System")
-st.caption("行為預測與推薦系統 · 期末 Demo — 多模態 + LLM + 探索式互動")
+st.caption("Multimodal + LLM-augmented anime recommendation with interactive discovery")
 
 if not artifacts_available():
     st.error(
@@ -445,7 +445,7 @@ with tab_discovery:
         st.info("👆 選一個起始方式並按「開始探索」。")
 
 
-# ====================== Tab 4: 自訂使用者 (期中既有) ======================
+# ====================== Tab 4: 自訂使用者 (冷啟動) ======================
 
 with tab_custom:
     st.subheader("自訂使用者 ‒ 冷啟動推薦 (Cold-Start)")
@@ -544,12 +544,12 @@ with tab_metrics:
 # ====================== Tab 6: About ======================
 
 with tab_about:
-    st.subheader("關於本系統 (期末版)")
+    st.subheader("關於本系統")
     st.markdown(
         """
 **主題**:基於 MyAnimeList (hernan4444 2020 版) 公開資料集的個人化動漫推薦系統。
 
-**期末新增重點 (對比期中)**:
+**核心功能**:
 1. **多模態推薦**:結構化 (genre/type) + 文字語意 (synopsis 經 sentence-transformers 嵌入) 加權混合
 2. **LLM 整合 (Groq + Llama 3.1)**:Top Picks 卡片副本、整體清單解釋、探索式推薦短評
 3. **🏆 三大首推 (Feature A)**:跨多模型的 reciprocal-rank fusion,給最值得優先看的 3 部
@@ -564,7 +564,7 @@ with tab_about:
 - Content-Based:Genre multi-hot + Type one-hot,cosine similarity
 - User-Based CF:KNN (k=30) on user-item rating matrix
 - SVD:Truncated SVD,latent factors = 50
-- **Multimodal (Text+Structural) [期末新增]**:sentence-transformers (all-MiniLM-L6-v2) 384-D 文字嵌入 + 結構化特徵,權重 0.6/0.4
+- **Multimodal (Text+Structural)**:sentence-transformers (all-MiniLM-L6-v2) 384-D 文字嵌入 + 結構化特徵,權重 0.6/0.4
 
 **評估方式**:Precision@10 / Recall@10 / NDCG@10,以 Popularity 為對照組,於隨機抽樣 1000 位 user 上計算。
         """
