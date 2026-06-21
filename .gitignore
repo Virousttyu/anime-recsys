@@ -28,6 +28,7 @@ data/processed/
 *.csv
 *.pkl
 *.npz
+*.npy
 *.zip
 
 # Streamlit
